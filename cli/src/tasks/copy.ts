@@ -78,6 +78,9 @@ export async function copy(
       await writeCordovaAndroidManifest(cordovaPlugins, config, platformName);
     } else if (platformName === config.web.name) {
       await copyWeb(config);
+    } else if (platformName === config.desktop.name) {
+      await copyWebDir(config, config.desktop.webDirAbs);
+      await copyCapacitorConfig(config, config.desktop.assetsDirAbs);
     } else {
       throw `Platform ${platformName} is not valid.`;
     }

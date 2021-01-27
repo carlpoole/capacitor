@@ -12,8 +12,10 @@ execute(async () => {
   const templates = [
     'android-template',
     'ios-template',
+    'desktop-template',
     'capacitor-cordova-android-plugins',
     'capacitor-cordova-ios-plugins',
+    'capacitor-cordova-desktop-plugins',
   ];
 
   await mkdir(assetsDir, { recursive: true });

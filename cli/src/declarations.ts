@@ -283,6 +283,16 @@ export interface CapacitorConfig {
     includePlugins?: string[];
   };
 
+  desktop?: {
+    /**
+     * Specify a custom path to the desktop project.
+     *
+     * @since 3.0.0
+     * @default desktop
+     */
+    path?: string;
+  };
+
   server?: {
     /**
      * Configure the local hostname of the device.

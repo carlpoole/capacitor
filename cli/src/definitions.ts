@@ -46,6 +46,7 @@ export interface CLIConfig {
   readonly assets: {
     readonly ios: PlatformAssetsConfig;
     readonly android: PlatformAssetsConfig;
+    readonly desktop: PlatformAssetsConfig;
   };
   readonly package: PackageJson;
   readonly os: OS;
@@ -111,10 +112,18 @@ export interface IOSConfig extends PlatformConfig {
 
 export type WebConfig = PlatformConfig;
 
+export interface DesktopConfig extends PlatformConfig {
+  readonly webDir: string;
+  readonly webDirAbs: string;
+  readonly assetsDir: string;
+  readonly assetsDirAbs: string;
+}
+
 export interface Config {
   readonly android: AndroidConfig;
   readonly ios: IOSConfig;
   readonly web: WebConfig;
   readonly cli: CLIConfig;
   readonly app: AppConfig;
+  readonly desktop: DesktopConfig;
 }

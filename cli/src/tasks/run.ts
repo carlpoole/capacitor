@@ -11,6 +11,7 @@ import {
   getPlatformTargetName,
 } from '../common';
 import type { Config } from '../definitions';
+import { runDesktop } from '../desktop/run';
 import { fatal, isFatal } from '../errors';
 import { runIOS } from '../ios/run';
 import { logger, output } from '../log';
@@ -104,6 +105,8 @@ export async function run(
     await runIOS(config, options);
   } else if (platformName === config.android.name) {
     await runAndroid(config, options);
+  } else if (platformName === config.desktop.name) {
+    await runDesktop(config, options);
   } else if (platformName === config.web.name) {
     return;
   } else {

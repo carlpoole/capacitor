@@ -17,6 +17,7 @@ import type {
   ExternalConfig,
   IOSConfig,
   WebConfig,
+  DesktopConfig,
 } from './definitions';
 import { OS } from './definitions';
 import { fatal, isFatal } from './errors';
@@ -46,6 +47,7 @@ export async function loadConfig(): Promise<Config> {
     android: await loadAndroidConfig(appRootDir, conf.extConfig, cli),
     ios: await loadIOSConfig(appRootDir, conf.extConfig),
     web: await loadWebConfig(appRootDir, webDir),
+    desktop: await loadDesktopConfig(appRootDir, conf.extConfig),
     cli,
     app: {
       rootDir: appRootDir,
@@ -175,6 +177,8 @@ async function loadCLIConfig(rootDir: string): Promise<CLIConfig> {
   const androidPlatformTemplateArchive = 'android-template.tar.gz';
   const androidCordovaPluginsTemplateArchive =
     'capacitor-cordova-android-plugins.tar.gz';
+  const desktopPlatformTemplateArchive = 'desktop-template.tar.gz';
+  const desktopCordovaPluginsTemplateArchive = '';
 
   return {
     rootDir,
@@ -203,6 +207,18 @@ async function loadCLIConfig(rootDir: string): Promise<CLIConfig> {
         cordovaPluginsTemplateArchiveAbs: resolve(
           assetsDirAbs,
           androidCordovaPluginsTemplateArchive,
+        ),
+      },
+      desktop: {
+        platformTemplateArchive: desktopPlatformTemplateArchive,
+        platformTemplateArchiveAbs: resolve(
+          assetsDirAbs,
+          desktopPlatformTemplateArchive,
+        ),
+        cordovaPluginsTemplateArchive: desktopCordovaPluginsTemplateArchive,
+        cordovaPluginsTemplateArchiveAbs: resolve(
+          assetsDirAbs,
+          desktopCordovaPluginsTemplateArchive,
         ),
       },
     },
@@ -316,6 +332,26 @@ async function loadWebConfig(
     name: 'web',
     platformDir,
     platformDirAbs,
+  };
+}
+
+async function loadDesktopConfig(
+  rootDir: string,
+  extConfig: ExternalConfig,
+): Promise<DesktopConfig> {
+  const platformDir = extConfig.desktop?.path ?? 'desktop';
+  const platformDirAbs = resolve(rootDir, platformDir);
+  const assetsDir = `${platformDirAbs}/assets`;
+  const webDir = `${platformDirAbs}/public`;
+
+  return {
+    name: 'desktop',
+    platformDir,
+    platformDirAbs,
+    assetsDir,
+    assetsDirAbs: resolve(platformDirAbs, assetsDir),
+    webDir,
+    webDirAbs: resolve(platformDirAbs, webDir),
   };
 }
 

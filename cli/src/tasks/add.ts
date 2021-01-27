@@ -5,6 +5,7 @@ import {
   editProjectSettingsAndroid,
   checkAndroidPackage,
 } from '../android/common';
+import { addDesktop } from '../desktop/add';
 import c from '../colors';
 import type { CheckFunction } from '../common';
 import {
@@ -127,6 +128,8 @@ export function addChecks(
     return [() => checkAndroidPackage(config)];
   } else if (platformName === config.web.name) {
     return [];
+  } else if (platformName === config.desktop.name) {
+    return [];
   } else {
     throw `Platform ${platformName} is not valid.`;
   }
@@ -141,6 +144,8 @@ export async function doAdd(
       await addIOS(config);
     } else if (platformName === config.android.name) {
       await addAndroid(config);
+    } else if (platformName === config.desktop.name) {
+      await addDesktop(config);
     }
   });
 }
